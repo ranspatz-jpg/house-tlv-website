@@ -154,8 +154,27 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)),
-                        url('https://images.unsplash.com/photo-1547481887-a26e2cacb5b2?w=1920&q=80') center/cover;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5));
         }
 
         .hero-content {
@@ -1012,7 +1031,12 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-bg"></div>
+        <div class="hero-bg">
+            <video class="hero-video" autoplay muted loop playsinline>
+                <source src="https://videos.pexels.com/video-files/3571264/3571264-uhd_2560_1440_30fps.mp4" type="video/mp4">
+            </video>
+            <div class="hero-overlay"></div>
+        </div>
         <div class="hero-content">
             <p class="hero-subtitle">נדל"ן יוקרה בתל אביב</p>
             <h1 class="hero-title">הבית שלך<br>מחכה לך</h1>
@@ -1046,7 +1070,7 @@
                     הצוות שלנו מכיר כל שכונה, כל רחוב וכל מגמה בשוק. אנחנו לא רק מציגים נכסים - אנחנו מוצאים בתים.
                 </p>
                 <div class="about-signature">
-                    <p class="signature-name">רן שפץ</p>
+                    <p class="signature-name">ג׳ון דן</p>
                     <p class="signature-title">מייסד ומנכ"ל</p>
                 </div>
             </div>
