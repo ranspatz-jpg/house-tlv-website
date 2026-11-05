@@ -1354,19 +1354,19 @@
     <section class="stats-section snap-section" id="stats">
         <div class="stats-grid">
             <div class="stat-item">
-                <p class="stat-number">15<span>+</span></p>
+                <p class="stat-number" data-target="15" data-suffix="+">0<span>+</span></p>
                 <p class="stat-label">שנות ניסיון</p>
             </div>
             <div class="stat-item">
-                <p class="stat-number">500<span>+</span></p>
+                <p class="stat-number" data-target="500" data-suffix="+">0<span>+</span></p>
                 <p class="stat-label">עסקאות מוצלחות</p>
             </div>
             <div class="stat-item">
-                <p class="stat-number">98<span>%</span></p>
+                <p class="stat-number" data-target="98" data-suffix="%">0<span>%</span></p>
                 <p class="stat-label">לקוחות מרוצים</p>
             </div>
             <div class="stat-item">
-                <p class="stat-number">2B<span>₪</span></p>
+                <p class="stat-number" data-target="2" data-suffix="B₪" data-prefix="">0<span>B₪</span></p>
                 <p class="stat-label">שווי עסקאות</p>
             </div>
         </div>
@@ -1597,6 +1597,65 @@
                 });
             });
         }
+
+        // ============================================
+        // Animated Counter - Numbers "run" when visible
+        // ============================================
+        const statNumbers = document.querySelectorAll('.stat-number[data-target]');
+        let statsAnimated = false;
+
+        function animateCounter(element) {
+            const target = parseInt(element.dataset.target);
+            const suffix = element.dataset.suffix || '';
+            const duration = 2000; // 2 seconds
+            const startTime = performance.now();
+
+            function updateNumber(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+
+                // Easing function for smooth deceleration
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const currentValue = Math.floor(easeOut * target);
+
+                element.innerHTML = currentValue + '<span>' + suffix + '</span>';
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateNumber);
+                } else {
+                    element.innerHTML = target + '<span>' + suffix + '</span>';
+                }
+            }
+
+            requestAnimationFrame(updateNumber);
+        }
+
+        function checkStatsVisible() {
+            if (statsAnimated) return;
+
+            const statsSection = document.getElementById('stats');
+            if (!statsSection) return;
+
+            const rect = statsSection.getBoundingClientRect();
+            const isVisible = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
+
+            if (isVisible) {
+                statsAnimated = true;
+                statNumbers.forEach((stat, index) => {
+                    // Stagger the animations
+                    setTimeout(() => {
+                        animateCounter(stat);
+                    }, index * 200);
+                });
+            }
+        }
+
+        // Check on scroll within snap container
+        if (snapContainer) {
+            snapContainer.addEventListener('scroll', checkStatsVisible);
+        }
+        // Also check on page load
+        checkStatsVisible();
     </script>
 </body>
 </html>
